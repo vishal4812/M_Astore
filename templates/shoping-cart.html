@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block body %}
+{% load static %}
+
+
+{% include "header.html" %}
+
+
+	<!-- breadcrumb -->
+	<div class="container">
+		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+			<a href="/" class="stext-109 cl8 hov-cl1 trans-04">
+				Home
+				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a>
+
+			<span class="stext-109 cl4">
+				Shoping Cart
+			</span>
+		</div>
+	</div>
+		
+
+	<!-- Shoping Cart -->
+	<form class="bg0 p-t-75 p-b-85">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
+					<div class="m-l-25 m-r--38 m-lr-0-xl">
+						<div class="wrap-table-shopping-cart">
+							<table class="table-shopping-cart">
+								<tr class="table_head">
+									<th class="column-1">No</th>
+									<th class="column-2">Product</th>
+									<th class="column-3"></th>
+									<th class="column-4">Price</th>
+									<th class="column-5">Quantity</th>
+									<th class="column-6" >Total&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+									<th class="column-7" colspan="2"></th>
+									<td class="column-8" >&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+								</tr>
+								{% for order_item in object.items.all %}
+								<tr class="table_row">
+									<td class="column-1">{{forloop.counter}}</td>
+									<td class="column-2">
+										<div class="how-itemcart1">
+											<img src="/media/{{order_item.item.image}}" alt="IMG">
+										</div>
+									</td>
+									<td class="column-3">{{order_item.item.product_name}}</td>
+									<td class="column-4">{{order_item.item.price}}</td>
+									<td class="column-5"><a href="{% url 'store:remove_single_item_from_cart' order_item.item.slug %}" class="mr-2"><b>-</b></a>{{order_item.quantity}}<a href="{% url 'store:add_to_cart' order_item.item.slug %}" class="ml-2"><b>+</b></a></td>
+									<td class="column-6" colspan="2">{{order_item.get_total_item_price}}</td>
+									<td class="column-7"><a href="{% url 'store:remove_from_cart' order_item.item.slug %}"><b>Delete</b></a></td>
+									<td class="column-8"></td>
+								</tr>
+								
+								{% empty %}
+								<tr>
+									<td colspan="5">Your cart is empty</td>
+								</tr>
+								{% endfor %}
+								<div class="mt-5">								
+								{% if object.get_total %}
+								<tr>
+									<td rowspan="2"></td>
+									<td colspan="4">Order Total</td>
+									<td rowspan="2">{{object.get_total}}</td>
+								</tr>
+								{% endif %}
+								</div>
+							</table>
+						</div>
+
+						<div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
+							<div class="flex-w flex-m m-r-20 m-tb-5">
+								<input  type="text" name="coupon" placeholder="">
+								
+								
+							<div class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
+								<a href="/" style="color: black;">Continue Shopping</a>
+							</div>
+							</div>
+							
+							<div class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
+								<a href="/checkout" style="color: black;">
+									Proceed to Checkout</a>
+							</div>
+						
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</form>
+		
+	
+		
+
+	{% include "footer.html" %}
+	{% endblock%}
+
+	{% block js %}
+	
+	{% endblock %}
+	
